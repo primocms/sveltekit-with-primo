@@ -6,6 +6,7 @@ export async function handle({ resolve, event }) {
 
   const repo = 'mateomorris/primocms.org'
   const primo_pages = [
+    'index',
     'themes',
     'cloud',
   ]
@@ -15,7 +16,7 @@ export async function handle({ resolve, event }) {
   if (primo_pages.includes(page)) {
 
     if (page === '_module.js' || child === '_module.js') {
-      const res = await axios.get(`https://raw.githubusercontent.com/mateomorris/primocms.org/main/${ child ? `${page}/_module.js` : `_module.js`}`)
+      const res = await axios.get(`https://raw.githubusercontent.com/${repo}/main/${ child ? `${page}/_module.js` : `_module.js`}`)
       return new Response(res.data ||  'no preview found', {
         headers: {  
           'Content-Type': 'text/javascript;charset=UTF-8',
@@ -23,7 +24,7 @@ export async function handle({ resolve, event }) {
         },
       })
     } else {
-      const res = await axios.get(`https://raw.githubusercontent.com/mateomorris/primocms.org/main/${ page ?  `${page}/index.html` : `index.html`}`)
+      const res = await axios.get(`https://raw.githubusercontent.com/${repo}/main/${ page === 'index' ? `index.html` : `${page}/index.html`}`)
       return new Response(res.data ||  'no preview found', {
         headers: {  
           'Content-Type': 'text/html;charset=UTF-8',
