@@ -11,7 +11,7 @@ export async function handle({ resolve, event }) {
     'cloud',
   ]
 
-  const [ page, child ] = event.url.pathname.split('/').filter(Boolean)
+  const [ page = 'index', child ] = event.url.pathname.split('/').filter(Boolean)
 
   if (primo_pages.includes(page)) {
 
@@ -32,10 +32,6 @@ export async function handle({ resolve, event }) {
         },
       })
     }
-
-
-    // const {data:file} = await supabaseAdmin.storage.from('sites').download(`${site.id}/${page.id}/index.html`)
-    
 
   }
 
