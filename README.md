@@ -1,18 +1,5 @@
-# create-svelte
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+# SvelteKit with Primo
+This repo demonstrates how you can serve Primo pages from a SvelteKit application. The magic happens in `hooks.server.js`, where particular routes are intercepted to download and serve a generated Primo page from the project's Github repository (which you would think would affect page speed but the effect seems marginal). With this approach, you could serve all your marketing pages from the same domain as your application, while enabling easy content editing & page building for those pages and a clear separation from the app logic. 
 
 ## Developing
 
