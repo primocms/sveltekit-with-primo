@@ -5,27 +5,39 @@ export async function handle({ resolve, event }) {
   const response = await resolve(event);
 
   const repo = 'mateomorris/primocms.org'
-  const primo_pages = [
+  const allowlist = [
     'index',
     'themes',
     'cloud',
   ]
+  const blocklist = [
+    'app'
+  ]
 
   const [ page = 'index', child ] = event.url.pathname.split('/').filter(Boolean)
 
-  if (primo_pages.includes(page)) {
+  if (!blocklist.includes(page)) {
 
     if (page === '_module.js' || child === '_module.js') {
       const res = await axios.get(`https://raw.githubusercontent.com/${repo}/main/${ child ? `${page}/_module.js` : `_module.js`}`)
-      return new Response(res.data ||  'no preview found', {
+      return new Response(res.data ||  '', {
         headers: {  
           'Content-Type': 'text/javascript;charset=UTF-8',
           'Access-Control-Allow-Origin': '*',
         },
       })
+    } else if (page === 'primo.json') {
+      const res = await axios.get(`https://raw.githubusercontent.com/${repo}/main/primo.json`)
+      console.log(res.data)
+      return new Response(JSON.stringify(res.data) ||  '{}', {
+        headers: {  
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
     } else {
       const res = await axios.get(`https://raw.githubusercontent.com/${repo}/main/${ page === 'index' ? `index.html` : `${page}/index.html`}`)
-      return new Response(res.data ||  'no preview found', {
+      return new Response(res.data ||  'failed', {
         headers: {  
           'Content-Type': 'text/html;charset=UTF-8',
           'Access-Control-Allow-Origin': '*',
